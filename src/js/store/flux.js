@@ -1,43 +1,82 @@
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			url: 'https://playground.4geeks.com/contact/',
+			selected: null,
+			contacts: null,
 		},
 		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+			createAgenda: async () => {
+				try {
+					const resp = await fetch(getStore().url+'agendas/ines-sanz',{
+						method: 'POST'
+					})
+					if (!resp.ok) throw new Error('error while creating agenda')
+					const data = await resp.json()
+				getActions().getUserAgenda()
+					return true
+				} catch (error) {
+					console.error(error)
+				}
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			creContact: async (contact) => {
+				try {
+					const resp = await fetch(getStore().url + 'agendas/ines-sanz/contact',{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify(contact)
+					})
+					if (!resp.ok) throw new Error('error while creating contact')
+					const data = await resp.json()
+					return data
+				} catch (error) {
+					console.error(error)
+				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+			getUserAgenda: async () => {
+				try {
+					const resp = await fetch(getStore().url+'agendas/ines-sanz')
+					if (resp.status===404) return getActions().createAgenda()
+					if (!resp.ok) throw new Error('error while getting agenda')
+					const data = await resp.json()
+					return data
+				} catch (error) {
+					console.error(error)
+				}
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
+			updContact: async (id, contact) => {try {
+				const resp = await fetch(getStore().url + 'agendas/ines-sanz/contact/' +id,{
+					method: 'PUT',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify(contact)
+				})
+				if (!resp.ok) throw new Error('error while updating contact')
+				const data = await resp.json()
+				return data
+			} catch (error) {
+				console.error(error)
+			}},
+
+			delContact: async (id) => {
+				try {
+					const resp = await fetch(getStore().url+'agendas/ines-sanz/contacts/' +id,{
+						method: 'DELETE'
+					})
+					if (!resp.ok) throw new Error('error while deleting contact')
+					const data = await resp.json()
+					return data
+				} catch (error) {
+					console.error(error)
+				}
+			},
+
 		}
 	};
 };
