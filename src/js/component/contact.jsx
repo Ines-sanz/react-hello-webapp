@@ -4,14 +4,14 @@ import contactImgOne from "../../img/iconContactOne.jpg";
 
 export const Contact = () => {
   return (
-    <div className="container row  d-flex justify-content-between align-center border border-secondary rounded m-5">
+    <div className="container row  d-flex justify-content-between align-center border border-secondary rounded my-5">
       <div class="card-body d-flex text-start ">
         <img
-          className="rounded-circle col-2 img-fluid"
+          className="col-3 col-sm-2 img-fluid"
           src={contactImgOne}
           alt="..."
         />
-        <div className="col-6 ms-4">
+        <div className="col-7 col-sm-6 ms-4">
           <h3 className="mt-2">Mike Anamendolla</h3>
           <p className="my-1 text-secondary">
             <span className="fa-solid fa-location-dot">
@@ -25,9 +25,9 @@ export const Contact = () => {
           </p>
         </div>
 
-        <div className="col-4 text-end me-5 pe-5">
-          <span class="fa-solid fa-pen mx-2 text-secondary"></span>
-          <span class="fa-solid fa-trash mx-2 text-secondary"></span>
+        <div className="col-3 col-sm-4 text-end me-4 pe-5 mt-2">
+          <span class="fa-solid fa-pen mx-1 text-secondary"></span>
+          <span class="fa-solid fa-trash mx-1 text-secondary"></span>
         </div>
       </div>
     </div>
