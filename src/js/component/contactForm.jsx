@@ -5,7 +5,7 @@ export const ContactForm = () => {
   const { store, actions } = useContext(Context);
 
   const [formData, setData] = useState({
-    fname: store.selected?.name || "",
+    name: store.selected?.name || "",
     email: store.selected?.email || "",
     address: store.selected?.address || "",
     phone: store.selected?.phone || "",
@@ -17,12 +17,15 @@ export const ContactForm = () => {
   };
 
   const handleSubmit = (e) => {
+    const id = store.selected?.id
     e.preventDefault();
+    store.selected? actions.updContact(id, formData) : 
+    actions.createContact(formData)
   };
 
   return (
     <div className="container-fluid d-flex justify-content-center">
-      <form className="col-12 col-sm-8 rounded bg-white">
+      <form className="col-12 col-sm-8 rounded bg-white" onSubmit={handleSubmit}>
         <div class="mb-3">
           <label class="form-label">Full Name</label>
           <input
@@ -31,7 +34,7 @@ export const ContactForm = () => {
             onChange={handleChange}
             type="text"
             class="form-control"
-            name="fname"
+            name="name"
             placeholder="Full Name"
           />
         </div>
@@ -74,7 +77,7 @@ export const ContactForm = () => {
             placeholder="Enter address"
           />
         </div>
-        {store.selected ? (
+        {store.selected? (
          <input type='submit' className="btn btn-primary col-12" value={'Edit contact'}/>
         ) : (
           <input type='submit' className="btn btn-primary col-12" value={'Save new contact'}/>
